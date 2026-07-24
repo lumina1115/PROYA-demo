@@ -1,5 +1,7 @@
 import type { ProductKnowledge } from "../types";
 
+export const assetUrl = (file: string) => `${import.meta.env.BASE_URL}assets/${file}`;
+
 export const products: ProductKnowledge[] = [
   {
     id: "double-anti-serum",
@@ -10,7 +12,7 @@ export const products: ProductKnowledge[] = [
     claims: ["改善暗沉与黄气", "提供抗氧化护理", "帮助肌肤保持透亮状态"],
     when: "am",
     minSensitivity: "medium",
-    image: "/assets/double-anti.jpg",
+    image: assetUrl("double-anti.jpg"),
     source: { label: "珀莱雅官网产品资料", url: "https://www.proya.com/product_detail-pId-674.html" },
   },
   {
@@ -22,7 +24,7 @@ export const products: ProductKnowledge[] = [
     claims: ["淡纹紧致护理", "改善肌肤弹润感", "针对初老纹路需求"],
     when: "pm",
     minSensitivity: "low",
-    image: "/assets/ruby.png",
+    image: assetUrl("ruby.png"),
     source: { label: "珀莱雅官网产品资料", url: "https://www.proya.com/product_detail-pId-695.html" },
   },
   {
@@ -34,7 +36,7 @@ export const products: ProductKnowledge[] = [
     claims: ["提供舒缓修护护理", "帮助改善干燥不适", "适合屏障脆弱期的精简护理"],
     when: "both",
     minSensitivity: "high",
-    image: "/assets/source-repair.jpg",
+    image: assetUrl("source-repair.jpg"),
     source: { label: "珀莱雅官网产品资料", url: "https://www.proya.com/" },
   },
   {
@@ -46,7 +48,7 @@ export const products: ProductKnowledge[] = [
     claims: ["温和清洁", "减少过度清洁带来的紧绷"],
     when: "both",
     minSensitivity: "high",
-    image: "/assets/source-repair.jpg",
+    image: assetUrl("source-repair.jpg"),
     source: { label: "演示用基础护理占位", url: "https://www.proya.com/" },
   },
   {
@@ -58,7 +60,7 @@ export const products: ProductKnowledge[] = [
     claims: ["补充保湿", "帮助维持肌肤屏障"],
     when: "both",
     minSensitivity: "high",
-    image: "/assets/source-repair.jpg",
+    image: assetUrl("source-repair.jpg"),
     source: { label: "演示用基础护理占位", url: "https://www.proya.com/" },
   },
   {
@@ -70,7 +72,7 @@ export const products: ProductKnowledge[] = [
     claims: ["日间防晒是功效护理的基础", "户外活动时按需补涂"],
     when: "am",
     minSensitivity: "high",
-    image: "/assets/double-anti.jpg",
+    image: assetUrl("double-anti.jpg"),
     source: { label: "演示用基础护理占位", url: "https://www.proya.com/" },
   },
 ];

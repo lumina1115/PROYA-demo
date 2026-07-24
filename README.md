@@ -2,6 +2,8 @@
 
 珀莱雅 AI 实习生笔试场景 Demo：通过轻量问卷采集用户需求，由规则约束的推荐引擎生成可解释的早晚护肤方案，并将用户行为同步到运营洞察页。
 
+在线体验：[https://lumina1115.github.io/PROYA-demo/](https://lumina1115.github.io/PROYA-demo/)
+
 ## 运行
 
 ```bash
@@ -17,6 +19,10 @@ npm run dev
 npm run build
 npm start
 ```
+
+## GitHub Pages
+
+推送到 `main` 后，`.github/workflows/deploy-pages.yml` 会自动构建并发布静态页面。Pages 环境使用本地推荐引擎，不会请求服务端 API；本地运行仍支持可选 AI 模式。
 
 ## 可选 AI 模式
 

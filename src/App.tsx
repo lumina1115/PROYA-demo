@@ -20,7 +20,7 @@ import {
   ThumbsUp,
   X,
 } from "lucide-react";
-import { products, productMap } from "./data/products";
+import { assetUrl, products, productMap } from "./data/products";
 import { loadAnalytics, track } from "./lib/analytics";
 import { buildLocalRecommendation, retrieveProducts } from "./lib/recommendation";
 import { recommendationResultSchema, type AnalyticsEvent, type Concern, type RecommendationResult, type UserProfile } from "./types";
@@ -101,8 +101,8 @@ function Intro({ profile, setProfile, onStart }: { profile: UserProfile; setProf
       </section>
       <section className="product-stage" aria-label="珀莱雅功效产品线">
         <div className="stage-label"><span>01</span><div>知识库覆盖<br /><strong>三大功效线</strong></div></div>
-        <div className="product-visual main"><img src="/assets/double-anti.jpg" alt="珀莱雅双抗产品官方视觉" /><span>日间透亮</span></div>
-        <div className="product-visual secondary"><img src="/assets/ruby.png" alt="珀莱雅红宝石精华官方视觉" /><span>夜间紧致</span></div>
+        <div className="product-visual main"><img src={assetUrl("double-anti.jpg")} alt="珀莱雅双抗产品官方视觉" /><span>日间透亮</span></div>
+        <div className="product-visual secondary"><img src={assetUrl("ruby.png")} alt="珀莱雅红宝石精华官方视觉" /><span>夜间紧致</span></div>
         <div className="stage-note">不是“猜产品”，而是先理解需求，再匹配可解释的护理路径。</div>
       </section>
     </main>
@@ -200,7 +200,7 @@ function Insights({ analytics }: { analytics: ReturnType<typeof loadAnalytics> }
     <div className="insights-grid">
       <section className="data-panel funnel-panel"><div className="panel-heading"><div><span>CONVERSION</span><h2>推荐链路漏斗</h2></div><small>最近 7 天</small></div><div className="funnel">{funnel.map(([label, value], index) => <div key={label}><span>{label}</span><div><i style={{ width: `${(value / max) * 100}%` }} /></div><strong>{value.toLocaleString()}</strong><small>{index === 0 ? "100%" : `${Math.round((value / max) * 100)}%`}</small></div>)}</div></section>
       <section className="data-panel segments-panel"><div className="panel-heading"><div><span>AUDIENCE</span><h2>核心需求人群</h2></div></div><div className="segment-donut"><div className="donut"><span><strong>41%</strong>暗沉倦态</span></div><div className="segment-legend"><p><i className="c1" />暗沉 + 熬夜 <strong>41%</strong></p><p><i className="c2" />细纹 + 干燥 <strong>27%</strong></p><p><i className="c3" />敏感 + 屏障 <strong>19%</strong></p><p><i className="c4" />其他组合 <strong>13%</strong></p></div></div></section>
-      <section className="data-panel recommendation-panel"><div className="panel-heading"><div><span>RECOMMENDATION</span><h2>产品线触达</h2></div></div><div className="product-reach">{[["双抗", 46, "/assets/double-anti.jpg"], ["源力", 31, "/assets/source-repair.jpg"], ["红宝石", 23, "/assets/ruby.png"]].map(([name, value, image]) => <div key={name}><img src={String(image)} alt={`${name}产品线`} /><span>{name}</span><div><i style={{ width: `${value}%` }} /></div><strong>{value}%</strong></div>)}</div></section>
+      <section className="data-panel recommendation-panel"><div className="panel-heading"><div><span>RECOMMENDATION</span><h2>产品线触达</h2></div></div><div className="product-reach">{[["双抗", 46, assetUrl("double-anti.jpg")], ["源力", 31, assetUrl("source-repair.jpg")], ["红宝石", 23, assetUrl("ruby.png")]].map(([name, value, image]) => <div key={name}><img src={String(image)} alt={`${name}产品线`} /><span>{name}</span><div><i style={{ width: `${value}%` }} /></div><strong>{value}%</strong></div>)}</div></section>
       <section className="data-panel opportunities-panel"><div className="panel-heading"><div><span>CONTENT GAP</span><h2>待补内容机会</h2></div><span className="priority">按机会值排序</span></div><div className="opportunity-list"><div><span className="rank">01</span><div><strong>敏感期能不能做功效护理？</strong><small>搜索高 · 现有内容覆盖低</small></div><span className="score high">92</span></div><div><span className="rank">02</span><div><strong>双抗与红宝石如何搭配</strong><small>结果页退出用户高频疑问</small></div><span className="score">86</span></div><div><span className="rank">03</span><div><strong>极简护肤的步骤取舍</strong><small>18-24 岁人群保存率高</small></div><span className="score">78</span></div></div></section>
     </div>
     <section className="insight-note"><Sparkles size={18} /><p><strong>本周建议：</strong>优先补齐“敏感期功效护理”内容，并在高敏感用户结果页前置入口。该人群占比 19%，但负反馈率是平均值的 1.6 倍。</p><button>创建内容任务 <ArrowRight size={16} /></button></section>
@@ -228,6 +228,7 @@ export default function App() {
     let final = local;
     const minimumDelay = new Promise((resolve) => setTimeout(resolve, 1900));
     try {
+      if (import.meta.env.BASE_URL !== "/") throw new Error("Static deployment uses the local engine.");
       const response = await fetch("/api/recommend", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ profile, knowledge: groundedKnowledge, baseline: { ...local, mode: "ai" } }) });
       if (response.ok) final = recommendationResultSchema.parse(await response.json());
     } catch { /* Local result is the intentional fallback. */ }
